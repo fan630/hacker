@@ -21,6 +21,12 @@ thead th {
 .table td{
     width: 100px; 
     height: 100px;
+    line-height: 100px;
+}
+
+.tdHover:hover{
+  background-color: rgba(0, 0, 0, 0.1);
+  cursor: pointer;
 }
 
 .table-bordered td, .table-bordered th{
