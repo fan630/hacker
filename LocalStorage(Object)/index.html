@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+    <meta
+        http-equiv="X-UA-Compatible"
+        content="ie=edge"
+    >
+    <title>Document</title>
+</head>
+
+<body>
+    <input
+        type="text"
+        name=""
+        id="inputText"
+    >
+    <!-- 記得在methods後面加上`()` -->
+    <button onclick="saveData()">Save</button>
+    </div>
+        <button onclick="LoadData()">Load</button>
+        <p id="text">(這邊顯示)</p>
+    </div>
+    <script>
+        function saveData() {
+            let temp = {
+                Name: 'Norris', 
+                CName: '若凡', 
+                Color: '#ccc'
+            }
+            // localStorage只能存字串, 所以要字串化
+            localStorage.setItem('Name', JSON.stringify(temp))
+        }
+        function LoadData() {
+            // 拿出來要物件化, 才能用
+            let temp = JSON.parse(localStorage.getItem('Name'))
+
+            document.getElementById('text').innerText = temp.CName
+            document.getElementById('text').style.color = temp.Color
+        }
+    </script>
+</body>
+</html>

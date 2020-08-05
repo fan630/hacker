@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+    <meta
+        http-equiv="X-UA-Compatible"
+        content="ie=edge"
+    >
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        var dataA = new Date(2020, -1, 32);
+        // 月份從0開始, 月份可以是負的, 天數可以往前推
+        console.log(dataA);
+        var dataB = new Date(2020, 7, 5);
+        console.log(dataB.getDate()); // 日期
+        console.log(dataB.getDay()) // 星期幾, 禮拜天是0
+        console.log(new Date(2020, 7, 0).getDate())
+    </script>
+</body>
+</html>

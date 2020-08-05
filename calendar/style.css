@@ -1,0 +1,28 @@
+.container{
+    position: relative;
+}
+
+.pre {
+    position: absolute;
+    left: 0;
+    top:0;
+}
+
+.next {
+    position: absolute;
+    right: 0;
+    top:0;
+}
+
+thead th {
+    border-bottom-width: 3px;
+}
+
+.table td{
+    width: 100px; 
+    height: 100px;
+}
+
+.table-bordered td, .table-bordered th{
+    border: 2px solid#dee2e6;
+}

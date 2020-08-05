@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+    <meta
+        http-equiv="X-UA-Compatible"
+        content="ie=edge"
+    >
+    <title>Document</title>
+</head>
+
+<body>
+    <input
+        type="text"
+        name=""
+        id="inputText"
+    >
+    <button onclick="SaveData()">Save</button>
+    <div>
+        <button onclick="LoadData()">Load</button>
+        <p id="text">(這邊顯示)</p>
+    </div>
+    <script>
+        function SaveData() {
+            let temp = document.getElementById('inputText').value
+            localStorage.setItem('Name', temp)
+        }
+        function LoadData() {
+            let temp = localStorage.getItem('Name')
+            document.getElementById('text').innerText = temp
+        }
+    </script>
+</body>
+</html>
