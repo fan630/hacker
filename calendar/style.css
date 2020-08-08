@@ -1,5 +1,15 @@
+*{
+    /* padding: 0;
+    margin: 0; */
+    font-family: 'Lemonada', cursive;
+}
+
 .container{
     position: relative;
+}
+
+.month{
+    font-weight: 500;
 }
 
 .pre {
@@ -18,10 +28,18 @@ thead th {
     border-bottom-width: 3px;
 }
 
-.table td{
+tbody td{
     width: 100px; 
     height: 100px;
-    line-height: 100px;
+}
+
+.tdNotActive{
+    border: 2px solid#dee2e6;
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.tdHover{
+    font-weight: 300;
 }
 
 .tdHover:hover{

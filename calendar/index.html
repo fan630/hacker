@@ -12,12 +12,26 @@
         crossorigin="anonymous"
     >
     <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.css'/>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Lemonada:wght@300;500&display=swap"
+        rel="stylesheet"
+    >
     <link rel="stylesheet" href="./style.css">
 </head>
 <body>
+    <ul class="list-group">
+        <li class="list-group-item">123</li>
+    </ul>
     <div class="table-responsive">
         <div class="container">
             <h1 class="month text-center my-3"></h1>
+            <div class="d-flex justify-content-end">
+                <button
+                    type="button"
+                    class="btn btn-primary my-2"
+                    data-toggle="modal" data-target="#exampleModal"
+                >新增事項</button>
+            </div>
             <table class="table table-bordered text-center">
                 <thead>
                     <tr>
@@ -38,6 +52,66 @@
             </div>
             <div class="next">
                 <i class="fas fa-arrow-right fa-2x"></i>
+            </div>
+        </div>
+    </div>
+    <!-- modal -->
+    <div
+        class="modal fade"
+        id="exampleModal"
+        tabindex="-1"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+    >
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-info">
+                    <h5
+                        class="modal-title text-white"
+                        id="exampleModalLabel"
+                    >新增待辦事項</h5>
+                    <button
+                        type="button"
+                        class="close"
+                        data-dismiss="modal"
+                        aria-label="Close"
+                    >
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group col-md-12">
+                            <label for="date"></label>
+                            <input
+                                type="date"
+                                id="date"
+                                class="datePick"
+                                name="date"
+                            >
+                        </div>
+                        <div class="form-group col-md-12">
+                            <div class="input-group mb-3">
+                                <input
+                                    type="text"
+                                    class="form-control inputText"
+                                    placeholder="請輸入待辦事項"
+                                >
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button
+                        type="button"
+                        class="btn btn-secondary"
+                        data-dismiss="modal"
+                    >關閉</button>
+                    <button
+                        type="button"
+                        class="btn btn-primary saveData"
+                    >儲存</button>
+                </div>
             </div>
         </div>
     </div>
