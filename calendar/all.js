@@ -34,8 +34,8 @@ function init() {
     for (let i = 0; i < 7; i++) {
         let td = document.createElement('td');
         if (i >= firstDay) {
-            td.textContent = dayCount
-            td.setAttribute('data-today', `${currentYear}-${reviseDigits(currentMonth + 1)}-${reviseDigits(dayCount)}`)
+            td.innerHTML = `${dayCount}<ul class="list-group"></ul>`
+            td.childNodes[1].setAttribute('data-today', `${currentYear}-${reviseDigits(currentMonth + 1)}-${reviseDigits(dayCount)}`)
             dayCount++
             td.classList.add('tdHover')
         }
@@ -50,8 +50,8 @@ function init() {
         for (let i = 0; i < 7; i++) {
             let td = document.createElement('td')
             if (dayCount <= monthDay) {
-                td.innerHTML = `${dayCount}<ul></ul>`
-                td.setAttribute('data-today', `${currentYear}-${reviseDigits(currentMonth + 1)}-${reviseDigits(dayCount)}`)
+                td.innerHTML = `${dayCount}<ul class="list-group"></ul>`
+                td.childNodes[1].setAttribute('data-today', `${currentYear}-${reviseDigits(currentMonth + 1)}-${reviseDigits(dayCount)}`)
                 td.classList.add('tdHover')
                 dayCount++
             }
@@ -154,7 +154,7 @@ function transfer(Location) {
     fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${Location}&key=AIzaSyBGUJ4osCN5Wb5_aPKacYdOCC2qKClAKjQ`)
         .then(resp => resp.json())
         .then(res => {
-            console.log(res.results[0].formatted_address)
+            //console.log(res.results[0].formatted_address)
             address.value = res.results[0].formatted_address
         })
 }
@@ -166,6 +166,7 @@ function addTodo(){
     init()
     todoList.push({
         id,
+        isNew:0,
         datePick,
         inputText, 
         address:address.value
@@ -180,20 +181,37 @@ function addTodo(){
 
 function render(){
     // 不選定特數日期的作法
-    let str = ''
-    todoList.forEach((item, i) => {
-        str += `<li>${item.datePick}-${item.inputText} - ${item.address}</li>`
-      }
-    )
-    ul.innerHTML = str
+    //let str = ''
+    // todoList.forEach((item, i) => {
+    //     str += `<li>${item.datePick}-${item.inputText} - ${item.address}</li>`
+    //   }
+    // )
+    // ul.innerHTML = str
 
     // 選定日期的作法
-    let tdHoverAry = []
-    
-    let tdHover = document.querySelectorAll('td.tdHover')
-    //let tdHover = Array.from(document.querySelectorAll('td.tdHover')).find(node => node.dataset.today)
-    tdHover.forEach(item => tdHoverAry.push(item.dataset.today))
-    // console.log(tdHoverAry)
+    let ulAry = []
+    let ul = Array.from(document.querySelectorAll('.list-group'))
+    ul.forEach(item => ulAry.push(item.dataset.today))
+    // console.log(ulAry)
+
+    let str = ''
+    todoList.forEach((item, i) => {
+          if(ulAry.includes(item.datePick)){
+              item.isNew = 1
+              if(item.isNew !== 0){
+                  item.datePick 
+              }
+            //   console.log(item.datePick)
+              //str += `<li>${item.datePick}-${item.inputText} - ${item.address}</li>`
+              str += `<li class="list-group-item" data-check=${item.id} data-toggle="modal" data-target="#exampleModal">
+                        ${item.inputText}
+                    </li>`
+          }
+        }
+    )
+    ul[2].innerHTML = str
+
+
 
     // tdHoverAry.forEach((item,i) => {
     //     if (item.includes('2020-08-23')){

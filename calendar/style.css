@@ -48,10 +48,10 @@ tbody td{
     font-weight: 300;
 }
 
-.tdHover:hover{
+/* .tdHover:hover{
   background-color: rgba(0, 0, 0, 0.1);
   cursor: pointer;
-}
+} */
 
 .table-bordered td, .table-bordered th{
     border: 2px solid#dee2e6;
