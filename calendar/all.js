@@ -14,6 +14,15 @@ let dayCount = 1; // 日期變數
 let tbody = document.querySelector('tbody')
 let li = document.querySelector('.list-group-item')
 let ul = document.querySelector('.list-group')
+let address = document.querySelector('.address')
+
+function reviseDigits(digit) {
+    if (digit.toString().length < 2) {
+        return `0${digit}`
+    }else{
+        return digit
+    }
+}
 
 function init() {
     tbody.innerHTML = '';
@@ -26,7 +35,7 @@ function init() {
         let td = document.createElement('td');
         if (i >= firstDay) {
             td.textContent = dayCount
-            td.setAttribute('data-today', `${currentYear}-0${currentMonth + 1}-${dayCount}`)
+            td.setAttribute('data-today', `${currentYear}-${reviseDigits(currentMonth + 1)}-${reviseDigits(dayCount)}`)
             dayCount++
             td.classList.add('tdHover')
         }
@@ -42,7 +51,7 @@ function init() {
             let td = document.createElement('td')
             if (dayCount <= monthDay) {
                 td.innerHTML = `${dayCount}<ul></ul>`
-                td.setAttribute('data-today', `${currentYear}-0${currentMonth+1}-${dayCount}`)
+                td.setAttribute('data-today', `${currentYear}-${reviseDigits(currentMonth + 1)}-${reviseDigits(dayCount)}`)
                 td.classList.add('tdHover')
                 dayCount++
             }
@@ -115,14 +124,51 @@ saveData.addEventListener('click', addTodo)
 let todoList = []
 localStorage.getItem('todoList') === null ? todoList = [] : todoList = JSON.parse(localStorage.getItem('todoList'))
 
+function initMap() {
+    var myLatlng = { lat: 25.0424604, lng: 121.5356504 };
+
+    var map = new google.maps.Map(
+        document.getElementById('map'), { zoom: 16, center: myLatlng });
+
+    // 有中心點但是沒有秀出來
+    var marker = new google.maps.Marker(
+        { position: myLatlng });
+
+    var infoWindow = new google.maps.InfoWindow(
+        { content: 'Click the map to get Lat/Lng!', position: myLatlng });
+
+    infoWindow.open(map);
+
+    map.addListener('click', function (mapsMouseEvent) {
+
+        marker.setMap(null);
+        infoWindow.close(map);
+
+        infoWindow = new google.maps.InfoWindow({ position: mapsMouseEvent.latLng });
+        marker = new google.maps.Marker({ position: mapsMouseEvent.latLng, map: map });
+        transfer(mapsMouseEvent.latLng.toString().replace(/[()]/g, ''))
+    });
+}
+
+function transfer(Location) {
+    fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${Location}&key=AIzaSyBGUJ4osCN5Wb5_aPKacYdOCC2qKClAKjQ`)
+        .then(resp => resp.json())
+        .then(res => {
+            console.log(res.results[0].formatted_address)
+            address.value = res.results[0].formatted_address
+        })
+}
+
 function addTodo(){
     let datePick = document.querySelector('.datePick').value
     let inputText = document.querySelector('.inputText').value
     let id = date.getTime()
+    init()
     todoList.push({
         id,
         datePick,
-        inputText
+        inputText, 
+        address:address.value
     })
     localStorage.setItem('todoList', JSON.stringify(todoList))
     $('#exampleModal').modal('hide')
@@ -131,31 +177,48 @@ function addTodo(){
 // 存到特定的欄位格子裡面的dataset.today -> dataset 每一個格子都有專屬日期
 // 存進去的時候找那個日期 -> 找年, 月, 日
 
+
 function render(){
+    // 不選定特數日期的作法
     let str = ''
+    todoList.forEach((item, i) => {
+        str += `<li>${item.datePick}-${item.inputText} - ${item.address}</li>`
+      }
+    )
+    ul.innerHTML = str
+
+    // 選定日期的作法
     let tdHoverAry = []
     
     let tdHover = document.querySelectorAll('td.tdHover')
+    //let tdHover = Array.from(document.querySelectorAll('td.tdHover')).find(node => node.dataset.today)
     tdHover.forEach(item => tdHoverAry.push(item.dataset.today))
     // console.log(tdHoverAry)
 
-    // return tdHoverAry.filter((item) => {
-    //     return item === (todoList.forEach(function (todo) { `${todo.datePick}`}))
+    // tdHoverAry.forEach((item,i) => {
+    //     if (item.includes('2020-08-23')){
+    //          console.log(tdHoverAry[i])
+    //     }
     // })
 
     // console.log(tdHoverAry)
 
     // 取到那個tdHoverAry所在的td底下的ul
     // 取到哪一個tdHoverAry?
-    
 
-    todoList.forEach((item, i) => {
-        if (tdHoverAry.includes(`${todoList[i].datePick}`)){
-            console.log(123)
-            str += `<li>${todoList[i].inputText}</li>`
-        }
-    })
+    // tdHover.forEach((item, i) => {
+    //     if(item.dataset.today === )
+    // }
+
+    // todoList.forEach((item, i) => {
+    //     if (tdHoverAry.includes(`${todoList[i].datePick}`)){
+    //         console.log(123)
+
+    //         str += `<li>${todoList[i].inputText}</li>`
+    //     }
+    // })
     // ul.innerHTML = str
+
 }
 
 render()
@@ -165,3 +228,5 @@ render()
 // function remove(){
 //     console.log(123)
 // }
+
+

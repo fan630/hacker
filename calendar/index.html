@@ -99,6 +99,16 @@
                                 >
                             </div>
                         </div>
+                        <div class="form-group col-md-12">
+                            <div class="input-group mb-3">
+                                <input
+                                    type="text"
+                                    class="form-control address"
+                                    placeholder="請點選地點"
+                                >
+                            </div>
+                            <div id="map" style="height:300px"></div>
+                        </div>
                     </form>
                 </div>
                 <div class="modal-footer">
@@ -130,6 +140,11 @@
     integrity="sha384-XEerZL0cuoUbHE4nZReLT7nx9gQrQreJekYhJD9WNWhH8nEW+0c5qq7aIo2Wl30J"
     crossorigin="anonymous"
 ></script>
+    <script
+        defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBGUJ4osCN5Wb5_aPKacYdOCC2qKClAKjQ&callback=initMap"
+    >
+    </script>
     <script src="./all.js"></script>
 </body>
 </html>
