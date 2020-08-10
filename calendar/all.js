@@ -1,20 +1,27 @@
+// 如何選到特定欄位的格子中? 
+
 let date = new Date();
 let currentYear = date.getFullYear()
 let currentMonth = date.getMonth();
 let currentDate = date.getDate();
 
 let dataTransfer = `${currentYear}-${currentMonth+1}-${currentDate}`
-// console.log(typeof(dataTransfer), dataTransfer)
-// let today = currentYear-(currentMonth+1)- 
-// console.log(today)
 let firstDay = new Date(currentYear, currentMonth, 1).getDay() // 星期六
 let monthDay = new Date(currentYear, currentMonth + 1, 0).getDate() // 31
 let dayCount = 1; // 日期變數
-// let dateCount = 1;
+
 let tbody = document.querySelector('tbody')
 let li = document.querySelector('.list-group-item')
 let ul = document.querySelector('.list-group')
 let address = document.querySelector('.address')
+let pre = document.querySelector('.pre')
+let next = document.querySelector('.next')
+let insertTodo = document.querySelector('.insertTodo')
+let saveData = document.querySelector('.saveData')
+
+let todoList = []
+let temp = {}
+let isNew = false
 
 function reviseDigits(digit) {
     if (digit.toString().length < 2) {
@@ -59,12 +66,10 @@ function init() {
         }
         tbody.appendChild(tr)
     }
+    render()
 }
 
 init()
-
-document.querySelector('.pre').addEventListener('click', preMonth)
-document.querySelector('.next').addEventListener('click',nextMonth)
 
 function preMonth(){
     currentMonth = currentMonth - 1;
@@ -74,7 +79,7 @@ function preMonth(){
     }
     firstDay = new Date(currentYear, currentMonth, 1).getDay()
     monthDay = new Date(currentYear, currentMonth + 1, 0).getDate()
-    init()
+    init()  
 }
 
 function nextMonth() {
@@ -118,10 +123,7 @@ function switchMonth(x){
     }
 }
 
-let saveData = document.querySelector('.saveData')
-saveData.addEventListener('click', addTodo)
 
-let todoList = []
 localStorage.getItem('todoList') === null ? todoList = [] : todoList = JSON.parse(localStorage.getItem('todoList'))
 
 function initMap() {
@@ -154,7 +156,6 @@ function transfer(Location) {
     fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${Location}&key=AIzaSyBGUJ4osCN5Wb5_aPKacYdOCC2qKClAKjQ`)
         .then(resp => resp.json())
         .then(res => {
-            //console.log(res.results[0].formatted_address)
             address.value = res.results[0].formatted_address
         })
 }
@@ -166,7 +167,6 @@ function addTodo(){
     init()
     todoList.push({
         id,
-        isNew:0,
         datePick,
         inputText, 
         address:address.value
@@ -178,65 +178,23 @@ function addTodo(){
 // 存到特定的欄位格子裡面的dataset.today -> dataset 每一個格子都有專屬日期
 // 存進去的時候找那個日期 -> 找年, 月, 日
 
-
 function render(){
-    // 不選定特數日期的作法
-    //let str = ''
-    // todoList.forEach((item, i) => {
-    //     str += `<li>${item.datePick}-${item.inputText} - ${item.address}</li>`
-    //   }
-    // )
-    // ul.innerHTML = str
-
     // 選定日期的作法
     let ulAry = []
     let ul = Array.from(document.querySelectorAll('.list-group'))
     ul.forEach(item => ulAry.push(item.dataset.today))
-    // console.log(ulAry)
 
     let str = ''
-    todoList.forEach((item, i) => {
-          if(ulAry.includes(item.datePick)){
-              item.isNew = 1
-              if(item.isNew !== 0){
-                  item.datePick 
-              }
-            //   console.log(item.datePick)
-              //str += `<li>${item.datePick}-${item.inputText} - ${item.address}</li>`
-              str += `<li class="list-group-item" data-check=${item.id} data-toggle="modal" data-target="#exampleModal">
+    // findIndex
+    todoList.forEach(function(item, i){
+        let index = ulAry.findIndex(x => x == item.datePick)
+        if(index != -1){
+            ul[index].innerHTML += `<li class="list-group-item" data-check=${item.id} data-toggle="modal" data-target="#secondModal">
                         ${item.inputText}
                     </li>`
-          }
         }
+    }
     )
-    ul[2].innerHTML = str
-
-
-
-    // tdHoverAry.forEach((item,i) => {
-    //     if (item.includes('2020-08-23')){
-    //          console.log(tdHoverAry[i])
-    //     }
-    // })
-
-    // console.log(tdHoverAry)
-
-    // 取到那個tdHoverAry所在的td底下的ul
-    // 取到哪一個tdHoverAry?
-
-    // tdHover.forEach((item, i) => {
-    //     if(item.dataset.today === )
-    // }
-
-    // todoList.forEach((item, i) => {
-    //     if (tdHoverAry.includes(`${todoList[i].datePick}`)){
-    //         console.log(123)
-
-    //         str += `<li>${todoList[i].inputText}</li>`
-    //     }
-    // })
-    // ul.innerHTML = str
-
 }
 
 render()
@@ -247,4 +205,10 @@ render()
 //     console.log(123)
 // }
 
+
+pre.addEventListener('click', preMonth)
+next.addEventListener('click', nextMonth)
+saveData.addEventListener('click', addTodo)
+// saveData.addEventListener('click', openModal(false))
+// insertTodo.addEventListener('click', openModal(true))
 
