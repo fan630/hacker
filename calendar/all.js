@@ -1,11 +1,9 @@
-// 如何選到特定欄位的格子中? 
-
 let date = new Date();
 let currentYear = date.getFullYear()
 let currentMonth = date.getMonth();
 let currentDate = date.getDate();
 
-let dataTransfer = `${currentYear}-${currentMonth+1}-${currentDate}`
+let dataTransfer = `${currentYear}-${currentMonth + 1}-${currentDate}`
 let firstDay = new Date(currentYear, currentMonth, 1).getDay() // 星期六
 let monthDay = new Date(currentYear, currentMonth + 1, 0).getDate() // 31
 let dayCount = 1; // 日期變數
@@ -16,17 +14,16 @@ let ul = document.querySelector('.list-group')
 let address = document.querySelector('.address')
 let pre = document.querySelector('.pre')
 let next = document.querySelector('.next')
-let insertTodo = document.querySelector('.insertTodo')
+let deleteData = document.querySelector('.deleteData')
 let saveData = document.querySelector('.saveData')
 
+
 let todoList = []
-let temp = {}
-let isNew = false
 
 function reviseDigits(digit) {
     if (digit.toString().length < 2) {
         return `0${digit}`
-    }else{
+    } else {
         return digit
     }
 }
@@ -71,15 +68,15 @@ function init() {
 
 init()
 
-function preMonth(){
+function preMonth() {
     currentMonth = currentMonth - 1;
-    if(currentMonth < 0){
+    if (currentMonth < 0) {
         currentMonth = 11
         currentYear = currentYear - 1
     }
     firstDay = new Date(currentYear, currentMonth, 1).getDay()
     monthDay = new Date(currentYear, currentMonth + 1, 0).getDate()
-    init()  
+    init()
 }
 
 function nextMonth() {
@@ -93,7 +90,7 @@ function nextMonth() {
     init()
 }
 
-function switchMonth(x){
+function switchMonth(x) {
     switch (true) {
         case x == 1:
             return x = 'January';
@@ -160,25 +157,25 @@ function transfer(Location) {
         })
 }
 
-function addTodo(){
+function addTodo() {
     let datePick = document.querySelector('.datePick').value
     let inputText = document.querySelector('.inputText').value
-    let id = date.getTime()
-    init()
+    let id = Math.random(date.getTime()*10)
     todoList.push({
         id,
         datePick,
-        inputText, 
-        address:address.value
+        inputText,
+        address: address.value
     })
     localStorage.setItem('todoList', JSON.stringify(todoList))
     $('#exampleModal').modal('hide')
-    render()
+    init()
 }
 // 存到特定的欄位格子裡面的dataset.today -> dataset 每一個格子都有專屬日期
 // 存進去的時候找那個日期 -> 找年, 月, 日
 
-function render(){
+function render() {
+    localStorage.getItem('todoList') === null ? todoList = [] : todoList = JSON.parse(localStorage.getItem('todoList'))
     // 選定日期的作法
     let ulAry = []
     let ul = Array.from(document.querySelectorAll('.list-group'))
@@ -186,29 +183,54 @@ function render(){
 
     let str = ''
     // findIndex
-    todoList.forEach(function(item, i){
+    todoList.forEach(function (item, i) {
         let index = ulAry.findIndex(x => x == item.datePick)
-        if(index != -1){
-            ul[index].innerHTML += `<li class="list-group-item" data-check=${item.id} data-toggle="modal" data-target="#secondModal">
+        if (index != -1) {
+            ul[index].innerHTML += 
+                 `<li class="list-group-item" data-check=${item.id} 
+                    data-toggle="modal" data-target="#secondModal">
                         ${item.inputText}
                     </li>`
         }
-    }
+      }
     )
 }
 
 render()
 
-// let deleteItem = document.querySelector('.deleteItem')
-// deleteItem.addEventListener('click', remove)
-// function remove(){
-//     console.log(123)
-// }
+$('#secondModal').on('show.bs.modal', function (e) {
+    let newInputText = document.querySelector('.newInputText')
+    let newDatePick = document.querySelector('.newDatePick')
+    // todoList.forEach(function(item){
+    //     let tempIndex = ji3
+    // })
+    // newInputText.value = 456
+    // newDatePick.value = '2020-08-01'
+})
 
+
+
+function removeTodo(){
+    let checks = Array.from(document.querySelectorAll('.list-group-item'))
+    let checksAry = []
+    checks.forEach(item => checksAry.push(item.dataset.check))
+
+    todoList.forEach(function(item){
+        let anotherIndex = checksAry.findIndex(y => Number(y) === item.id)
+        if (anotherIndex != -1) {
+
+            // todoList[anotherIndex].inputText
+            // todoList.splice(anotherIndex, 1)
+            localStorage.setItem('todoList', JSON.stringify(todoList))
+        } 
+        init()
+    })
+    $('#secondModal').modal('hide')
+}
 
 pre.addEventListener('click', preMonth)
 next.addEventListener('click', nextMonth)
 saveData.addEventListener('click', addTodo)
+deleteData.addEventListener('click', removeTodo)
 // saveData.addEventListener('click', openModal(false))
 // insertTodo.addEventListener('click', openModal(true))
-

@@ -19,9 +19,6 @@
     <link rel="stylesheet" href="./style.css">
 </head>
 <body>
-    <!-- <ul class="list-group">
-        <li class="list-group-item">123</li>
-    </ul> -->
     <div class="table-responsive">
         <div class="container">
             <h1 class="month text-center my-3"></h1>
@@ -125,78 +122,82 @@
             </div>
         </div>
     </div>
-        <div
-            class="modal fade"
-            id="secondModal"
-            tabindex="-1"
-            aria-labelledby="exampleModalLabel"
-            aria-hidden="true"
-        >
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header bg-warning">
-                        <h5
-                            class="modal-title text-white insertTodo"
-                            id="exampleModalLabel"
-                        >待辦事項</h5>
-                        <button
-                            type="button"
-                            class="close"
-                            data-dismiss="modal"
-                            aria-label="Close"
-                        >
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <form>
-                            <div class="form-group col-md-12">
-                                <label for="date"></label>
+    <!-- modal2 -->
+    <div
+        class="modal fade"
+        id="secondModal"
+        tabindex="-1"
+        aria-hidden="true"
+    >
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-warning">
+                    <h5
+                        class="modal-title text-white insertTodo"
+                        id="exampleModalLabel"
+                    >待辦事項</h5>
+                    <button
+                        type="button"
+                        class="close"
+                        data-dismiss="modal"
+                        aria-label="Close"
+                    >
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group col-md-12">
+                            <label for="date"></label>
+                            <input
+                                type="date"
+                                id="date"
+                                class="newDatePick"
+                                name="date"
+                            >
+                        </div>
+                        <div class="form-group col-md-12">
+                            <div class="input-group mb-3">
                                 <input
-                                    type="date"
-                                    id="date"
-                                    class="datePick"
-                                    name="date"
+                                    type="text"
+                                    class="form-control newInputText"
+                                    placeholder="請輸入待辦事項"
                                 >
                             </div>
-                            <div class="form-group col-md-12">
-                                <div class="input-group mb-3">
-                                    <input
-                                        type="text"
-                                        class="form-control inputText"
-                                        placeholder="請輸入待辦事項"
-                                    >
-                                </div>
+                        </div>
+                        <div class="form-group col-md-12">
+                            <div class="input-group mb-3">
+                                <input
+                                    type="text"
+                                    class="form-control address"
+                                    placeholder="請點選地點"
+                                >
                             </div>
-                            <div class="form-group col-md-12">
-                                <div class="input-group mb-3">
-                                    <input
-                                        type="text"
-                                        class="form-control address"
-                                        placeholder="請點選地點"
-                                    >
-                                </div>
-                                <div
-                                    id="map"
-                                    style="height:300px"
-                                ></div>
-                            </div>
-                        </form>
-                    </div>
-                    <div class="modal-footer">
-                        <button
-                            type="button"
-                            class="btn btn-secondary"
-                            data-dismiss="modal"
-                        >關閉</button>
-                        <button
-                            type="button"
-                            class="btn btn-primary saveData"
-                        >儲存</button>
-                    </div>
+                            <div
+                                id="map"
+                                style="height:300px"
+                            ></div>
+                        </div>
+                    </form>
                 </div>
+                <div class="modal-footer">
+                    <button
+                        type="button"
+                        class="btn btn-secondary"
+                        data-dismiss="modal"
+                    >關閉</button>
+                    <button
+                        type="button"
+                        class="btn btn-primary reviseData"
+                    >修改</button>
+                    <button
+                        type="button"
+                        class="btn btn-danger deleteData"
+                    >刪除</button>
+                    </div>
             </div>
         </div>
+    </div>
 <script
     src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
     integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
