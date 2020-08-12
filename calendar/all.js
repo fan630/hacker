@@ -182,12 +182,11 @@ function render() {
     ul.forEach(item => ulAry.push(item.dataset.today))
 
     let str = ''
-    // findIndex
     todoList.forEach(function (item, i) {
         let index = ulAry.findIndex(x => x == item.datePick)
         if (index != -1) {
             ul[index].innerHTML += 
-                 `<li class="list-group-item" data-check=${item.id} 
+                `<li class="list-group-item" onclick="ShowMeDate(${item.id})" data-check=${item.id} 
                     data-toggle="modal" data-target="#secondModal">
                         ${item.inputText}
                     </li>`
@@ -196,33 +195,16 @@ function render() {
     )
 }
 
-render()
-
-$('#secondModal').on('show.bs.modal', function (e) {
-    let newInputText = document.querySelector('.newInputText')
-    let newDatePick = document.querySelector('.newDatePick')
-    // todoList.forEach(function(item){
-    //     let tempIndex = ji3
-    // })
-    // newInputText.value = 456
-    // newDatePick.value = '2020-08-01'
-})
-
-
+function ShowMeDate(id){
+    $(".deleteData").attr('data-check', id)
+}
 
 function removeTodo(){
-    let checks = Array.from(document.querySelectorAll('.list-group-item'))
-    let checksAry = []
-    checks.forEach(item => checksAry.push(item.dataset.check))
-
-    todoList.forEach(function(item){
-        let anotherIndex = checksAry.findIndex(y => Number(y) === item.id)
-        if (anotherIndex != -1) {
-
-            // todoList[anotherIndex].inputText
-            // todoList.splice(anotherIndex, 1)
+    todoList.forEach(function(item, i){
+        if ($(".deleteData").attr('data-check') === String(item.id)){
+            todoList.splice(i, 1)
             localStorage.setItem('todoList', JSON.stringify(todoList))
-        } 
+        }
         init()
     })
     $('#secondModal').modal('hide')
