@@ -15,6 +15,7 @@ let address = document.querySelector('.address')
 let pre = document.querySelector('.pre')
 let next = document.querySelector('.next')
 let deleteData = document.querySelector('.deleteData')
+let reviseData = document.querySelector('.reviseData')
 let saveData = document.querySelector('.saveData')
 
 
@@ -123,39 +124,39 @@ function switchMonth(x) {
 
 localStorage.getItem('todoList') === null ? todoList = [] : todoList = JSON.parse(localStorage.getItem('todoList'))
 
-function initMap() {
-    var myLatlng = { lat: 25.0424604, lng: 121.5356504 };
+// function initMap() {
+//     var myLatlng = { lat: 25.0424604, lng: 121.5356504 };
 
-    var map = new google.maps.Map(
-        document.getElementById('map'), { zoom: 16, center: myLatlng });
+//     var map = new google.maps.Map(
+//         document.getElementById('map'), { zoom: 16, center: myLatlng });
 
-    // 有中心點但是沒有秀出來
-    var marker = new google.maps.Marker(
-        { position: myLatlng });
+//     // 有中心點但是沒有秀出來
+//     var marker = new google.maps.Marker(
+//         { position: myLatlng });
 
-    var infoWindow = new google.maps.InfoWindow(
-        { content: 'Click the map to get Lat/Lng!', position: myLatlng });
+//     var infoWindow = new google.maps.InfoWindow(
+//         { content: 'Click the map to get Lat/Lng!', position: myLatlng });
 
-    infoWindow.open(map);
+//     infoWindow.open(map);
 
-    map.addListener('click', function (mapsMouseEvent) {
+//     map.addListener('click', function (mapsMouseEvent) {
 
-        marker.setMap(null);
-        infoWindow.close(map);
+//         marker.setMap(null);
+//         infoWindow.close(map);
 
-        infoWindow = new google.maps.InfoWindow({ position: mapsMouseEvent.latLng });
-        marker = new google.maps.Marker({ position: mapsMouseEvent.latLng, map: map });
-        transfer(mapsMouseEvent.latLng.toString().replace(/[()]/g, ''))
-    });
-}
+//         infoWindow = new google.maps.InfoWindow({ position: mapsMouseEvent.latLng });
+//         marker = new google.maps.Marker({ position: mapsMouseEvent.latLng, map: map });
+//         transfer(mapsMouseEvent.latLng.toString().replace(/[()]/g, ''))
+//     });
+// }
 
-function transfer(Location) {
-    fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${Location}&key=AIzaSyBGUJ4osCN5Wb5_aPKacYdOCC2qKClAKjQ`)
-        .then(resp => resp.json())
-        .then(res => {
-            address.value = res.results[0].formatted_address
-        })
-}
+// function transfer(Location) {
+//     fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${Location}&key=AIzaSyBGUJ4osCN5Wb5_aPKacYdOCC2qKClAKjQ`)
+//         .then(resp => resp.json())
+//         .then(res => {
+//             address.value = res.results[0].formatted_address
+//         })
+// }
 
 function addTodo() {
     let datePick = document.querySelector('.datePick').value
@@ -196,7 +197,11 @@ function render() {
 }
 
 function ShowMeDate(id){
+    
+
     $(".deleteData").attr('data-check', id)
+    $(".reviseData").attr('data-check', id)
+
 }
 
 function removeTodo(){
@@ -210,9 +215,14 @@ function removeTodo(){
     $('#secondModal').modal('hide')
 }
 
+function editTodo(){
+    console.log($(".reviseData").attr('data-check'))
+}
+
 pre.addEventListener('click', preMonth)
 next.addEventListener('click', nextMonth)
 saveData.addEventListener('click', addTodo)
 deleteData.addEventListener('click', removeTodo)
+reviseData.addEventListener('click', editTodo)
 // saveData.addEventListener('click', openModal(false))
 // insertTodo.addEventListener('click', openModal(true))
