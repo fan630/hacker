@@ -12,6 +12,7 @@ let tbody = document.querySelector('tbody')
 let li = document.querySelector('.list-group-item')
 let ul = document.querySelector('.list-group')
 let address = document.querySelector('.address')
+let newAddress = document.querySelector('.newAddress')
 let pre = document.querySelector('.pre')
 let next = document.querySelector('.next')
 let deleteData = document.querySelector('.deleteData')
@@ -20,6 +21,7 @@ let saveData = document.querySelector('.saveData')
 
 
 let todoList = []
+
 
 function reviseDigits(digit) {
     if (digit.toString().length < 2) {
@@ -124,39 +126,54 @@ function switchMonth(x) {
 
 localStorage.getItem('todoList') === null ? todoList = [] : todoList = JSON.parse(localStorage.getItem('todoList'))
 
-// function initMap() {
-//     var myLatlng = { lat: 25.0424604, lng: 121.5356504 };
+function initMap() {
+    var myLatlng = { lat: 25.0424604, lng: 121.5356504 };
 
-//     var map = new google.maps.Map(
-//         document.getElementById('map'), { zoom: 16, center: myLatlng });
+    var map = new google.maps.Map(
+        document.getElementById('map'), { zoom: 16, center: myLatlng },
+    );
 
-//     // 有中心點但是沒有秀出來
-//     var marker = new google.maps.Marker(
-//         { position: myLatlng });
+    var map2 = new google.maps.Map(
+        document.getElementById('map2'), { zoom: 16, center: myLatlng },
+    );
 
-//     var infoWindow = new google.maps.InfoWindow(
-//         { content: 'Click the map to get Lat/Lng!', position: myLatlng });
+    var marker = new google.maps.Marker(
+        { position: myLatlng });
 
-//     infoWindow.open(map);
+    var infoWindow = new google.maps.InfoWindow(
+        { content: 'Click the map to get Lat/Lng!', position: myLatlng });
 
-//     map.addListener('click', function (mapsMouseEvent) {
+    infoWindow.open(map);
 
-//         marker.setMap(null);
-//         infoWindow.close(map);
+    map.addListener('click', function (mapsMouseEvent) {
 
-//         infoWindow = new google.maps.InfoWindow({ position: mapsMouseEvent.latLng });
-//         marker = new google.maps.Marker({ position: mapsMouseEvent.latLng, map: map });
-//         transfer(mapsMouseEvent.latLng.toString().replace(/[()]/g, ''))
-//     });
-// }
+        marker.setMap(null);
+        infoWindow.close(map);
 
-// function transfer(Location) {
-//     fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${Location}&key=AIzaSyBGUJ4osCN5Wb5_aPKacYdOCC2qKClAKjQ`)
-//         .then(resp => resp.json())
-//         .then(res => {
-//             address.value = res.results[0].formatted_address
-//         })
-// }
+        infoWindow = new google.maps.InfoWindow({ position: mapsMouseEvent.latLng });
+        marker = new google.maps.Marker({ position: mapsMouseEvent.latLng, map: map });
+        transfer(mapsMouseEvent.latLng.toString().replace(/[()]/g, ''))
+    });
+
+    map2.addListener('click', function (mapsMouseEvent) {
+
+        marker.setMap(null);
+        infoWindow.close(map2);
+
+        infoWindow = new google.maps.InfoWindow({ position: mapsMouseEvent.latLng });
+        marker = new google.maps.Marker({ position: mapsMouseEvent.latLng, map: map2 });
+        transfer(mapsMouseEvent.latLng.toString().replace(/[()]/g, ''))
+    });
+}
+
+function transfer(Location) {
+    fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${Location}&key=AIzaSyBGUJ4osCN5Wb5_aPKacYdOCC2qKClAKjQ`)
+        .then(resp => resp.json())
+        .then(res => {
+            address.value = res.results[0].formatted_address
+            newAddress.value = res.results[0].formatted_address
+        })
+}
 
 function addTodo() {
     let datePick = document.querySelector('.datePick').value
@@ -197,11 +214,15 @@ function render() {
 }
 
 function ShowMeDate(id){
-    
-
     $(".deleteData").attr('data-check', id)
     $(".reviseData").attr('data-check', id)
-
+    todoList.forEach(item => {
+        if(item.id == id){
+            $(".newDatePick").val(item.datePick)
+            $(".newInputText").val(item.inputText)
+            $(".newAddress").val(item.address)
+        }
+    })
 }
 
 function removeTodo(){
@@ -216,7 +237,16 @@ function removeTodo(){
 }
 
 function editTodo(){
-    console.log($(".reviseData").attr('data-check'))
+    todoList.forEach(function(item, i){
+        if ($(".reviseData").attr('data-check') === String(item.id)){
+            item.datePick = $(".newDatePick").val()
+            item.inputText = $(".newInputText").val()
+            item.address = $(".newAddress").val()
+            localStorage.setItem('todoList', JSON.stringify(todoList))
+        }
+        init()
+    })
+    $('#secondModal').modal('hide')
 }
 
 pre.addEventListener('click', preMonth)
@@ -224,5 +254,3 @@ next.addEventListener('click', nextMonth)
 saveData.addEventListener('click', addTodo)
 deleteData.addEventListener('click', removeTodo)
 reviseData.addEventListener('click', editTodo)
-// saveData.addEventListener('click', openModal(false))
-// insertTodo.addEventListener('click', openModal(true))
