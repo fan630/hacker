@@ -32,6 +32,7 @@ function reviseDigits(digit) {
 }
 
 function init() {
+    todoList.length = 0;
     tbody.innerHTML = '';
     dayCount = 1;
     document.querySelector('.month').innerHTML = `${currentYear} ${switchMonth(currentMonth + 1)}`
@@ -178,14 +179,20 @@ function transfer(Location) {
 function addTodo() {
     let datePick = document.querySelector('.datePick').value
     let inputText = document.querySelector('.inputText').value
+    let timePick = document.querySelector('.timePick').value
+    let favcolor = document.querySelector('.favcolor').value
     let id = Math.random(date.getTime()*10)
     todoList.push({
         id,
         datePick,
+        timePick,
         inputText,
+        favcolor,
         address: address.value
     })
     localStorage.setItem('todoList', JSON.stringify(todoList))
+    datePick = "";
+    console.log(datePick)
     $('#exampleModal').modal('hide')
     init()
 }
@@ -204,7 +211,10 @@ function render() {
         let index = ulAry.findIndex(x => x == item.datePick)
         if (index != -1) {
             ul[index].innerHTML += 
-                `<li class="list-group-item" onclick="ShowMeDate(${item.id})" data-check=${item.id} 
+                `<li class="list-group-item" 
+                    style="background-color:${item.favcolor}"
+                    onclick="ShowMeDate(${item.id})" 
+                    data-check=${item.id} 
                     data-toggle="modal" data-target="#secondModal">
                         ${item.inputText}
                     </li>`
@@ -219,10 +229,13 @@ function ShowMeDate(id){
     todoList.forEach(item => {
         if(item.id == id){
             $(".newDatePick").val(item.datePick)
+            $(".newTimePick").val(item.timePick)
             $(".newInputText").val(item.inputText)
             $(".newAddress").val(item.address)
+            $(".newFavcolor").val(item.favcolor)
         }
     })
+    console.log(todoList)
 }
 
 function removeTodo(){
@@ -242,6 +255,8 @@ function editTodo(){
             item.datePick = $(".newDatePick").val()
             item.inputText = $(".newInputText").val()
             item.address = $(".newAddress").val()
+            item.timePick = $(".newTimePick").val()
+            item.favcolor = $(".newFavcolor").val()
             localStorage.setItem('todoList', JSON.stringify(todoList))
         }
         init()

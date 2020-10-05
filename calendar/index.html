@@ -58,6 +58,7 @@
         id="exampleModal"
         tabindex="-1"
         aria-labelledby="exampleModalLabel"
+        data-backdrop="static"
         aria-hidden="true"
     >
         <div class="modal-dialog">
@@ -78,17 +79,24 @@
                 </div>
                 <div class="modal-body">
                     <form>
-                        <div class="form-group col-md-12">
-                            <label for="date"></label>
+                        <div class="form-group">
                             <input
                                 type="date"
                                 id="date"
-                                class="datePick"
+                                class="datePick form-control"
                                 name="date"
                             >
                         </div>
-                        <div class="form-group col-md-12">
-                            <div class="input-group mb-3">
+                        <div class="form-group">
+                            <input
+                                type="time"
+                                id="time"
+                                class="timePick form-control"
+                                name="usr_time"
+                            >
+                        </div>
+                        <div class="form-group">
+                            <div class="input-group">
                                 <input
                                     type="text"
                                     class="form-control inputText"
@@ -96,7 +104,7 @@
                                 >
                             </div>
                         </div>
-                        <div class="form-group col-md-12">
+                        <div class="form-group">
                             <div class="input-group mb-3">
                                 <input
                                     type="text"
@@ -105,6 +113,17 @@
                                 >
                             </div>
                             <div id="map" style="height:300px"></div>
+                        </div>
+                        <div class="form-group">
+                            <div class="input-group">
+                                <label for="favcolor">待辦事項顏色標註:</label>
+                                <input type="color" 
+                                    id="favcolor"
+                                    class="ml-3 favcolor" 
+                                    name="favcolor" 
+                                    width="50px"
+                                value="#ff0000">
+                            </div>
                         </div>
                     </form>
                 </div>
@@ -126,6 +145,7 @@
     <div
         class="modal fade"
         id="secondModal"
+        data-backdrop="static"
         tabindex="-1"
         aria-hidden="true"
     >
@@ -147,24 +167,31 @@
                 </div>
                 <div class="modal-body">
                     <form>
-                        <div class="form-group col-md-12">
-                            <label for="date"></label>
+                        <div class="form-group">
                             <input
                                 type="date"
                                 id="date"
-                                class="newDatePick"
+                                class="newDatePick form-control"
                                 name="date"
                             >
                         </div>
-                        <div class="form-group col-md-12">
-                            <div class="input-group mb-3">
+                        <div class="form-group">
+                            <input
+                                type="time"
+                                id="time"
+                                class="newTimePick form-control"
+                                name="usr_time"
+                            >
+                        </div>
+                        <div class="form-group">
+                            <div class="input-group">
                                 <input
                                     type="text"
                                     class="form-control newInputText"
                                 >
                             </div>
                         </div>
-                        <div class="form-group col-md-12">
+                        <div class="form-group">
                             <div class="input-group mb-3">
                                 <input
                                     type="text"
@@ -175,6 +202,17 @@
                                 id="map2"
                                 style="height:300px"
                             ></div>
+                        </div>
+                        <div class="form-group">
+                            <div class="input-group">
+                                <label for="favcolor">待辦事項顏色標註:</label>
+                                <input type="color" 
+                                    id="favcolor"
+                                    class="ml-3 newFavcolor" 
+                                    name="favcolor" 
+                                    width="50px"
+                                value="#ff0000">
+                            </div>
                         </div>
                     </form>
                 </div>
