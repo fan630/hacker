@@ -182,17 +182,22 @@ function addTodo() {
     let timePick = document.querySelector('.timePick').value
     let favcolor = document.querySelector('.favcolor').value
     let id = Math.random(date.getTime()*10)
-    todoList.push({
-        id,
-        datePick,
-        timePick,
-        inputText,
-        favcolor,
-        address: address.value
-    })
-    localStorage.setItem('todoList', JSON.stringify(todoList))
-    $('#exampleModal').modal('hide')
-    init()
+
+    if(inputText != "" && datePick != ""){
+        todoList.push({
+            id,
+            datePick,
+            timePick,
+            inputText,
+            favcolor,
+            address: address.value
+        })
+        localStorage.setItem('todoList', JSON.stringify(todoList))
+        $('#exampleModal').modal('hide')
+        init()
+    }else{
+        swal("請填寫日期和待辦事項!", "" ,"warning");
+    }
 }
 
 
