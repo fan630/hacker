@@ -17,7 +17,7 @@ let pre = document.querySelector('.pre')
 let next = document.querySelector('.next')
 let deleteData = document.querySelector('.deleteData')
 let reviseData = document.querySelector('.reviseData')
-let saveData = document.querySelector('.saveData')
+let addData = document.querySelector('.addData')
 
 
 let todoList = []
@@ -32,7 +32,7 @@ function reviseDigits(digit) {
 }
 
 function init() {
-    todoList.length = 0;
+    // todoList.length = 0;
     tbody.innerHTML = '';
     dayCount = 1;
     document.querySelector('.month').innerHTML = `${currentYear} ${switchMonth(currentMonth + 1)}`
@@ -191,11 +191,19 @@ function addTodo() {
         address: address.value
     })
     localStorage.setItem('todoList', JSON.stringify(todoList))
-    datePick = "";
-    console.log(datePick)
     $('#exampleModal').modal('hide')
     init()
 }
+
+
+$('#exampleModal').on('show.bs.modal', function (event) {
+    document.querySelector('.datePick').value = ""
+    document.querySelector('.inputText').value = ""
+    document.querySelector('.timePick').value = ""
+    document.querySelector('.address').value = ""
+    console.log(123)
+})
+
 // 存到特定的欄位格子裡面的dataset.today -> dataset 每一個格子都有專屬日期
 // 存進去的時候找那個日期 -> 找年, 月, 日
 
@@ -211,7 +219,7 @@ function render() {
         let index = ulAry.findIndex(x => x == item.datePick)
         if (index != -1) {
             ul[index].innerHTML += 
-                `<li class="list-group-item" 
+                `<li class="list-group-item text-white" 
                     style="background-color:${item.favcolor}"
                     onclick="ShowMeDate(${item.id})" 
                     data-check=${item.id} 
@@ -235,12 +243,11 @@ function ShowMeDate(id){
             $(".newFavcolor").val(item.favcolor)
         }
     })
-    console.log(todoList)
 }
 
 function removeTodo(){
     todoList.forEach(function(item, i){
-        if ($(".deleteData").attr('data-check') === String(item.id)){
+        if ($(".deleteData").attr('data-check') == String(item.id)){
             todoList.splice(i, 1)
             localStorage.setItem('todoList', JSON.stringify(todoList))
         }
@@ -251,12 +258,12 @@ function removeTodo(){
 
 function editTodo(){
     todoList.forEach(function(item, i){
-        if ($(".reviseData").attr('data-check') === String(item.id)){
-            item.datePick = $(".newDatePick").val()
-            item.inputText = $(".newInputText").val()
-            item.address = $(".newAddress").val()
-            item.timePick = $(".newTimePick").val()
-            item.favcolor = $(".newFavcolor").val()
+        if ($(".reviseData").attr('data-check') == String(item.id)){
+            todoList[i].datePick = $(".newDatePick").val()
+            todoList[i].inputText  = $(".newInputText").val()
+            todoList[i].address = $(".newAddress").val()
+            todoList[i].timePick= $(".newTimePick").val()
+            todoList[i].favcolor= $(".newFavcolor").val()
             localStorage.setItem('todoList', JSON.stringify(todoList))
         }
         init()
@@ -266,6 +273,6 @@ function editTodo(){
 
 pre.addEventListener('click', preMonth)
 next.addEventListener('click', nextMonth)
-saveData.addEventListener('click', addTodo)
+addData.addEventListener('click', addTodo)
 deleteData.addEventListener('click', removeTodo)
 reviseData.addEventListener('click', editTodo)
